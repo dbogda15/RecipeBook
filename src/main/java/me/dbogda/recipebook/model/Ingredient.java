@@ -2,10 +2,13 @@ package me.dbogda.recipebook.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Ingredient {
-    private final String name;
-    private final int quantity;
-    private final String unit;
+    private String name;
+    private int quantity;
+    private String unit;
 }
