@@ -9,7 +9,7 @@ import java.util.Map;
 public interface RecipeService {
     int putRecipe(Recipe recipe);
 
-    String getRecipeByID (Integer id);
+    Recipe getRecipeByID (Integer id);
 
     String deleteRecipe(int id);
 

@@ -35,17 +35,18 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public String getRecipeByID(Integer id) {
+    public Recipe getRecipeByID(Integer id) {
         if (recipeMap.get(id) == null) {
             return null;
         }
-        return recipeMap.get(id).toString();
+        return recipeMap.get(id);
     }
 
     @Override
     public String deleteRecipe(int id) {
         if (recipeMap.containsKey(id)) {
             recipeMap.remove(id);
+            saveToFile();
             return "ingredient with id = " + id + " has been deleted";
         }
         return "There is not ingredients with id= " + id;
@@ -63,7 +64,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Map<Integer, Recipe> getAllRecipes() {
-        readFromFile();
         return recipeMap;
     }
 

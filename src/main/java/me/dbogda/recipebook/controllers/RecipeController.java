@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.dbogda.recipebook.model.Ingredient;
 import me.dbogda.recipebook.model.Recipe;
 import me.dbogda.recipebook.service.RecipeService;
 import org.springframework.http.ResponseEntity;
@@ -58,11 +57,11 @@ public class RecipeController {
 
     })
     public ResponseEntity<String> getRecipe (@PathVariable int id) {
-        String recipe = recipeService.getRecipeByID(id);
+        Recipe recipe = recipeService.getRecipeByID(id);
         if (recipe == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(recipe);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")

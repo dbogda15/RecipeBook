@@ -36,9 +36,6 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public Ingredient getIngredientByID(Integer id) {
-        if (ingredients.get(id) == null) {
-            return null;
-        }
         return ingredients.get(id);
     }
 
@@ -56,6 +53,7 @@ public class IngredientsServiceImpl implements IngredientsService {
     public String deleteIngredient(int id) {
         if (ingredients.containsKey(id)) {
             ingredients.remove(id);
+            saveToFile();
             return "ingredient with id = " + id + " has been deleted";
         }
         return "There is not ingredients with id= " + id;
@@ -63,7 +61,6 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public Map<Integer, Ingredient> getAllIngredients() {
-        readFromFile();
         return ingredients;
     }
 
