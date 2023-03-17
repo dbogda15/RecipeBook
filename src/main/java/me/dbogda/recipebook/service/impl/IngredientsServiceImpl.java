@@ -20,10 +20,10 @@ public class IngredientsServiceImpl implements IngredientsService {
         this.fileService = fileService;
     }
 
-    @PostConstruct
-    private void init(){
-        fileService.readFromFile();
-    }
+//    @PostConstruct
+//    private void init(){
+//        fileService.readFromFile();
+//    }
 
     @Override
     public int putIngredients(Ingredient ingredient) {

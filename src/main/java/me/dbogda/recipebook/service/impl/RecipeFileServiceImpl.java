@@ -4,6 +4,7 @@ import me.dbogda.recipebook.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,5 +48,10 @@ public class RecipeFileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public File getDataFile() {
+        return new File(dataFilePath + "/" + recipeFileName);
     }
 }
