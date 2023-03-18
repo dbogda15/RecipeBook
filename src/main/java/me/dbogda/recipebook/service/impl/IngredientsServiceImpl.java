@@ -7,6 +7,7 @@ import me.dbogda.recipebook.model.Ingredient;
 import me.dbogda.recipebook.service.IngredientsService;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -20,10 +21,13 @@ public class IngredientsServiceImpl implements IngredientsService {
         this.fileService = fileService;
     }
 
-//    @PostConstruct
-//    private void init(){
-//        fileService.readFromFile();
-//    }
+    @PostConstruct
+    private void init(){
+        File file = fileService.getDataFile();
+        if (file.exists()) {
+            fileService.readFromFile();
+        }
+    }
 
     @Override
     public int putIngredients(Ingredient ingredient) {

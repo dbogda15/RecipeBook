@@ -7,6 +7,7 @@ import me.dbogda.recipebook.model.Recipe;
 import me.dbogda.recipebook.service.RecipeService;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 @org.springframework.stereotype.Service
@@ -20,10 +21,13 @@ public class RecipeServiceImpl implements RecipeService {
         this.fileService = fileService;
     }
 
-//    @PostConstruct
-//    private void init(){
-//        fileService.readFromFile();
-//    }
+    @PostConstruct
+    private void init(){
+        File file = fileService.getDataFile();
+        if (file.exists()) {
+            fileService.readFromFile();
+        }
+    }
 
     @Override
     public int putRecipe(Recipe recipe) {
