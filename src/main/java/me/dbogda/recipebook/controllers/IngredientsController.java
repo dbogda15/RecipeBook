@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/ingredients")
-@Tag(name = "Редактор ингридиентов", description = "Приложение для добавления и редактирования ингридиентов")
+@Tag(name = "Редактор ингредиентов", description = "Приложение для добавления и редактирования ингредиентов")
 public class IngredientsController {
 
     private final IngredientsService ingredientsService;
@@ -28,11 +28,23 @@ public class IngredientsController {
     }
 
     @PostMapping("/add")
-    @Operation(summary = "Добавление нового ингридиента")
+    @Operation(summary = "Добавление нового ингредиента")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Новый ингридиент добавлен"
+                    description = "Новый ингредиент добавлен"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     public ResponseEntity<Integer> addIngredients (@RequestBody Ingredient ingredient) {
@@ -41,20 +53,32 @@ public class IngredientsController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Распечатать ингридиент по id")
+    @Operation(summary = "Распечатать ингредиент по id")
     @Parameters(value = {
             @Parameter(name = "id", example = "1")
     })
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Ингридиент с данным id найден",
+                    description = "Ингредиент с данным id найден",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     public ResponseEntity<Ingredient> getIngredientById(@PathVariable int id) {
@@ -65,14 +89,26 @@ public class IngredientsController {
         return ResponseEntity.ok(ingredient);
     }
     @DeleteMapping ("/delete/{id}")
-    @Operation(summary = "Удалить ингридиент по id")
+    @Operation(summary = "Удалить ингредиент по id")
     @Parameters(value = {
             @Parameter(name = "id", example = "1")
     })
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Ингридиент с данным id удалён"
+                    description = "Ингредиент с данным id удалён"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     public ResponseEntity<String> deleteIngredientById(@PathVariable int id) {
@@ -84,20 +120,32 @@ public class IngredientsController {
     }
 
     @PutMapping("/edit/{id}")
-    @Operation(summary = "Редактировать ингридиент по id")
+    @Operation(summary = "Редактировать ингредиент по id")
     @Parameters(value = {
             @Parameter(name = "id", example = "1")
     })
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Ингридиент с данным id изменён",
+                    description = "Ингредиент с данным id изменён",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     public ResponseEntity <Ingredient> editIngredient(@PathVariable int id, @RequestBody Ingredient ingredient) {
@@ -109,17 +157,29 @@ public class IngredientsController {
     }
 
     @GetMapping("/print")
-    @Operation(summary = "Распечатать все ингридиенты")
+    @Operation(summary = "Распечатать все ингредиенты")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Все ингридиенты найдены",
+                    description = "Все ингредиенты найдены",
                     content = {
                             @Content(
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = Ingredient.class))
                             )
                     }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     public ResponseEntity<Map<Integer, Ingredient>> getAllIngredients () {
@@ -129,5 +189,4 @@ public class IngredientsController {
         }
         return ResponseEntity.ok(allIngredientsMap);
     }
-
 }

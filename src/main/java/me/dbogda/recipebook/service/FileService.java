@@ -3,6 +3,7 @@ package me.dbogda.recipebook.service;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.file.Path;
 
 @Service
 public interface FileService {
@@ -13,4 +14,5 @@ public interface FileService {
     String readFromFile();
 
     File getDataFile();
+
 }

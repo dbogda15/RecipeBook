@@ -43,16 +43,16 @@ public class IngredientFileServiceImpl implements FileService {
     }
 
     @Override
-    public String readFromFile(){
+    public String readFromFile() {
         try {
-          return Files.readString(Path.of(dataFilePath, ingredientFileName));
+            return Files.readString(Path.of(dataFilePath, ingredientFileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public File getDataFile(){
+    public File getDataFile() {
         return new File(dataFilePath + "/" + ingredientFileName);
     }
 }

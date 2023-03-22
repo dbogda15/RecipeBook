@@ -18,10 +18,10 @@ public class RecipeFileServiceImpl implements FileService {
     private String recipeFileName;
 
     @Override
-    public boolean saveToFile(String json) {
+    public boolean saveToFile(String txt) {
         try {
             cleanDataFile();
-            Files.writeString(Path.of(dataFilePath, recipeFileName), json);
+            Files.writeString(Path.of(dataFilePath, recipeFileName), txt);
             return true;
         } catch (IOException e) {
             return false;
@@ -53,5 +53,14 @@ public class RecipeFileServiceImpl implements FileService {
     @Override
     public File getDataFile() {
         return new File(dataFilePath + "/" + recipeFileName);
+    }
+
+
+    public Path createTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "tempFile", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }

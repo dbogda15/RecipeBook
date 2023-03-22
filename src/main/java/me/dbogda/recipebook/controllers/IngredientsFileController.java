@@ -18,7 +18,7 @@ import java.io.*;
 
 @RestController
 @RequestMapping("/ingredients/file")
-@Tag(name = "Работа с файлами с ингридиентами", description = "Здесь можно загрузить и скачать файлы с ингридиентами")
+@Tag(name = "Работа с файлами с ингредиентами", description = "Здесь можно загрузить и скачать файлы с ингредиентами")
 public class IngredientsFileController {
 
     private final IngredientFileServiceImpl ingredientFileService;
@@ -28,11 +28,23 @@ public class IngredientsFileController {
     }
 
 
-    @Operation(summary = "Скачать файл с ингридиентами")
+    @Operation(summary = "Скачать файл с ингредиентами")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Файл загружен на ваш компьютер"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     @GetMapping("/export")
@@ -51,11 +63,23 @@ public class IngredientsFileController {
     }
 
 
-    @Operation(summary = "Импорт файла с ингридиентами")
+    @Operation(summary = "Импорт файла с ингредиентами")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Файл загружен в программу"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "есть ошибка в параметрах запроса"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "URL неверный или такого действия нет в веб-приложении"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "во время выполнения запроса произошла ошибка на сервере"
             )
     })
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

@@ -8,8 +8,14 @@ import me.dbogda.recipebook.service.RecipeService;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
+
 @org.springframework.stereotype.Service
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeFileServiceImpl fileService;
@@ -22,7 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         File file = fileService.getDataFile();
         if (file.exists()) {
             fileService.readFromFile();
@@ -71,17 +77,52 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeMap;
     }
 
-    private void saveToFile(){
+    public Path createRecipesCollection() throws IOException {
+        Path path = fileService.createTempFile("recipesCollection");
+
+        for (Recipe recipe : recipeMap.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append(recipe.getName());
+                writer.append("\n");
+                writer.append("Время приготовления: ").append(String.valueOf(recipe.getCookingTime())).append(" минут.");
+                writer.append("\n");
+
+                writer.append("Ингредиенты:");
+                writer.append("\n");
+                recipe.getIngredients().forEach((integer, ingredient) -> {
+                    try {
+                        writer.append(ingredient.getName()).append(" ").append(String.valueOf(ingredient.getQuantity())).append(" ").append(ingredient.getUnit());
+                        writer.append("\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                writer.append("Инструкция приготовления:");
+                recipe.getSteps().forEach(step -> {
+                    try {
+                        writer.append(step);
+                        writer.append("\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                writer.append("\n");
+            }
+        }
+        return path;
+    }
+
+    private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipeMap);
             fileService.saveToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    private void readFromFile (){
+    private void readFromFile() {
         try {
             String json = fileService.readFromFile();
             recipeMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer, Recipe>>() {

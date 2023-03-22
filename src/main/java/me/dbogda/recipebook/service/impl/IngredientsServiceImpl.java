@@ -22,7 +22,7 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         File file = fileService.getDataFile();
         if (file.exists()) {
             fileService.readFromFile();
@@ -69,17 +69,16 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
 
-    private void saveToFile(){
+    private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(ingredients);
             fileService.saveToFile(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    private void readFromFile (){
+    private void readFromFile() {
         try {
             String json = fileService.readFromFile();
             ingredients = new ObjectMapper().readValue(json, new TypeReference<TreeMap<Integer, Ingredient>>() {
